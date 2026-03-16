@@ -18,7 +18,8 @@ app.use(
       if (
         origin === allowed ||
         origin === "http://localhost:3000" ||
-        origin === "http://localhost:3001"
+        origin === "http://localhost:3001" ||
+        origin?.endsWith(".vercel.app")
       ) {
         return origin;
       }

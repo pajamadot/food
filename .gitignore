@@ -11,3 +11,5 @@ dist/
 .dev.vars
 secrets/
 .DS_Store
+
+.vercel
