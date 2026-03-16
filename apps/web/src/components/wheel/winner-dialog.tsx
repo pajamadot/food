@@ -12,7 +12,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { DeliveryButtons } from "@/components/delivery-links/delivery-buttons";
 import { getPhotoUrl } from "@/lib/api-client";
-import { Star, MapPin, RotateCcw } from "lucide-react";
+import { Star, MapPin, RotateCcw, Globe, Phone, UtensilsCrossed, ShoppingBag, Truck } from "lucide-react";
+
+const PRICE_LABELS = ["Free", "$", "$$", "$$$", "$$$$"];
 import confetti from "canvas-confetti";
 
 type WinnerDialogProps = {
@@ -86,23 +88,37 @@ export function WinnerDialog({
           )}
 
           <div className="space-y-2">
-            {winner.rating && (
-              <div className="flex items-center gap-1 text-sm">
-                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span className="font-medium">{winner.rating}</span>
-                {winner.userRatingCount && (
-                  <span className="text-muted-foreground">
-                    ({winner.userRatingCount} reviews)
-                  </span>
-                )}
-              </div>
+            {/* Rating + Price + Open */}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+              {winner.rating != null && (
+                <span className="flex items-center gap-1 font-medium">
+                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                  {winner.rating}
+                  {winner.userRatingCount != null && (
+                    <span className="text-muted-foreground">
+                      ({winner.userRatingCount.toLocaleString()})
+                    </span>
+                  )}
+                </span>
+              )}
+              {winner.priceLevel != null && winner.priceLevel > 0 && (
+                <span className="font-medium text-emerald-600">
+                  {PRICE_LABELS[winner.priceLevel]}
+                </span>
+              )}
+              {winner.isOpenNow != null && (
+                <span className={winner.isOpenNow ? "font-medium text-emerald-600" : "font-medium text-red-500"}>
+                  {winner.isOpenNow ? "Open Now" : "Closed"}
+                </span>
+              )}
+            </div>
+
+            {/* Summary */}
+            {winner.summary && (
+              <p className="text-sm text-muted-foreground">{winner.summary}</p>
             )}
-            {winner.address && (
-              <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                <MapPin className="h-4 w-4 shrink-0" />
-                {winner.address}
-              </div>
-            )}
+
+            {/* Cuisine tags */}
             {winner.cuisineTypes.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {winner.cuisineTypes.map((cuisine) => (
@@ -115,6 +131,55 @@ export function WinnerDialog({
                 ))}
               </div>
             )}
+
+            {/* Address */}
+            {winner.address && (
+              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4 shrink-0" />
+                {winner.address}
+              </div>
+            )}
+
+            {/* Service options */}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+              {winner.dineIn && (
+                <span className="flex items-center gap-1">
+                  <UtensilsCrossed className="h-3.5 w-3.5" /> Dine-in
+                </span>
+              )}
+              {winner.takeout && (
+                <span className="flex items-center gap-1">
+                  <ShoppingBag className="h-3.5 w-3.5" /> Takeout
+                </span>
+              )}
+              {winner.delivery && (
+                <span className="flex items-center gap-1">
+                  <Truck className="h-3.5 w-3.5" /> Delivery
+                </span>
+              )}
+            </div>
+
+            {/* Website + Phone */}
+            <div className="flex flex-wrap gap-3 text-sm">
+              {winner.websiteUri && (
+                <a
+                  href={winner.websiteUri}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-primary hover:underline"
+                >
+                  <Globe className="h-4 w-4" /> Website
+                </a>
+              )}
+              {winner.phoneNumber && (
+                <a
+                  href={`tel:${winner.phoneNumber}`}
+                  className="flex items-center gap-1 text-primary hover:underline"
+                >
+                  <Phone className="h-4 w-4" /> {winner.phoneNumber}
+                </a>
+              )}
+            </div>
           </div>
 
           <DeliveryButtons

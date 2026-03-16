@@ -10,11 +10,18 @@ export type Restaurant = {
   location: LatLng;
   rating?: number;
   userRatingCount?: number;
-  priceLevel?: string;
+  priceLevel?: number; // 0-4: Free/$/$$/$$$/$$$$
+  primaryType?: string; // e.g. "Chinese Restaurant"
   cuisineTypes: string[];
+  summary?: string; // editorial summary
   photoUri?: string;
   googleMapsUri?: string;
+  websiteUri?: string;
+  phoneNumber?: string;
   isOpenNow?: boolean;
+  dineIn?: boolean;
+  takeout?: boolean;
+  delivery?: boolean;
 };
 
 export type NearbySearchRequest = {
