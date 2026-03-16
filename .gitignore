@@ -1,0 +1,13 @@
+node_modules/
+.next/
+dist/
+.turbo/
+.vercel/
+.wrangler/
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+.dev.vars
+secrets/
+.DS_Store

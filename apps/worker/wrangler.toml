@@ -1,0 +1,9 @@
+name = "food-api"
+main = "src/index.ts"
+compatibility_date = "2025-03-14"
+
+[vars]
+ALLOWED_ORIGIN = "https://food.pajamadot.com"
+
+# Set GOOGLE_PLACES_API_KEY as a secret:
+# wrangler secret put GOOGLE_PLACES_API_KEY
