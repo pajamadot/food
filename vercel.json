@@ -1,0 +1,5 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "pnpm turbo build --filter=@food/web",
+  "outputDirectory": "apps/web/.next"
+}
