@@ -47,6 +47,14 @@ export default function HomePage() {
     geo.locate();
   }, [geo]);
 
+  const handleLocationSearch = useCallback(
+    (location: { lat: number; lng: number }) => {
+      geo.setLocation(location);
+      setAppState("SEARCHING");
+    },
+    [geo]
+  );
+
   // Once location is found, update state
   if (geo.location && !geo.loading && appState === "LOCATING") {
     setAppState("SEARCHING");
@@ -122,6 +130,7 @@ export default function HomePage() {
               >
                 <Hero
                   onGetStarted={handleGetStarted}
+                  onLocationSearch={handleLocationSearch}
                   loading={geo.loading}
                 />
               </motion.div>
